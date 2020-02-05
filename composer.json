@@ -1,0 +1,20 @@
+{
+    "name": "i-avatar777/service-ecdsa",
+    "version": "0.0.1",
+    "type": "library",
+    "description": "fast openSSL-compatible implementation of the Elliptic Curve Digital Signature Algorithm (ECDSA)",
+    "homepage": "https://github.com/i-avatar777/service-ecdsa",
+    "license": "MIT",
+    "require": {
+    },
+    "autoload": {
+        "psr-4" : {
+            "iAvatar777\\services\\EllipticCurve\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "iAvatar777\\services\\EllipticCurve\\" : "tests/"
+        }
+    }
+}
