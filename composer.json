@@ -1,6 +1,6 @@
 {
     "name": "i-avatar777/service-ecdsa",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "type": "library",
     "description": "fast openSSL-compatible implementation of the Elliptic Curve Digital Signature Algorithm (ECDSA)",
     "homepage": "https://github.com/i-avatar777/service-ecdsa",

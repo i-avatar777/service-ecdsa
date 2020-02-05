@@ -26,7 +26,7 @@ We ran a test on a MAC Pro i7 2017. We ran the library 100 times and got the ave
 
 | Library            | sign          | verify  |
 | ------------------ |:-------------:| -------:|
-| starkbank-ecdsa    |     0.6ms     |  0.4ms  |
+| service-ecdsa      |     0.6ms     |  0.4ms  |
 
 ### Sample Code
 
