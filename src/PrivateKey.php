@@ -7,10 +7,10 @@ class PrivateKey {
     function __construct($curve="secp256k1", $openSslPrivateKey=null) {
         if (is_null($openSslPrivateKey)) {
             $config = array(
-                "digest_alg" => "sha256",
+                "digest_alg"       => "sha256",
                 "private_key_bits" => 2048,
                 "private_key_type" => OPENSSL_KEYTYPE_EC,
-                "curve_name" => $curve
+                "curve_name"       => $curve
             );
 
             $response = openssl_pkey_new($config);
