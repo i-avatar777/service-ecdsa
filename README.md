@@ -11,7 +11,7 @@ To install ECDSA-PHP using composer:
 ```json
 {
     "require": {
-        "i-avatar777/service-ecdsa": "0.0.1"
+        "i-avatar777/service-ecdsa": "*"
     }
 }
 ```
