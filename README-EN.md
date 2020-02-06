@@ -1,14 +1,12 @@
-## Простая и быстрая реализация ECDSA на PHP используя библиотеку функций openssl
+## A lightweight and fast PHP ECDSA
 
-### Введение
+### Overview
 
-Это PHP-реализация алгоритма цифровой подписи с эллиптической кривой. Он совместим с PHP 5.5+. Обратите внимание, что эта библиотека сильно зависит от пакета openssl для PHP, поэтому - в зависимости от вашей установки PHP - вам может потребоваться повторно скомпилировать ее с флагом "–with-openssl".
+This is a PHP implementation of the Elliptic Curve Digital Signature Algorithm. It is compatible with PHP 5.5+. Please note that this library relies heavily on the openssl package for PHP, so - depending on you PHP installation - you may need to re-compile it with the "–with-openssl" flag.
 
-Модуль обернут вокруг встроенных функций openssl, поэтому все стандартные кривые должны поддерживаться. Значение по умолчанию: `secp256k1`.
+### Installation
 
-### Инсталяция
-
-Для инсталяции ECDSA-PHP используйте composer:
+To install ECDSA-PHP using composer:
 
 ```json
 {
@@ -18,17 +16,21 @@
 }
 ```
 
-### Скорость
+### Curves
 
-Мы провели тест на MAC Pro i7 2017. Мы пробежали библиотеку 100 раз и получили среднее время, отображаемое ниже:
+The module is wrapped around the builtin openssl functions, so all standar curves should be supported. The default is `secp256k1`.
 
-| Библиотека         | Подпись       | Проверка  |
-| ------------------ |:-------------:| ---------:|
-| service-ecdsa      |     0.6ms     |  0.4ms    |
+### Speed
 
-### Пример кода
+We ran a test on a MAC Pro i7 2017. We ran the library 100 times and got the average time displayed bellow:
 
-Как подписать json сообщение:
+| Library            | sign          | verify  |
+| ------------------ |:-------------:| -------:|
+| service-ecdsa      |     0.6ms     |  0.4ms  |
+
+### Sample Code
+
+How to sign a json message for:
 
 ```php
 
@@ -94,20 +96,20 @@ echo "\n" . EllipticCurve\Ecdsa::verify($message, $signature, $publicKey);
 
 ### OpenSSL
 
-Эта библиотека совместима с OpenSSL, поэтому вы можете использовать ее для генерации ключей:
+This library is compatible with OpenSSL, so you can use it to generate keys:
 
 ```
 openssl ecparam -name secp256k1 -genkey -out privateKey.pem
 openssl ec -in privateKey.pem -pubout -out publicKey.pem
 ```
 
-Создайте message.txt файл и подпишите его:
+Create a message.txt file and sign it:
 
 ```
 openssl dgst -sha256 -sign privateKey.pem -out signatureDer.txt message.txt
 ```
 
-А теперь подпишем:
+It's time to verify:
 
 ```php
 
@@ -122,7 +124,7 @@ echo "\n" . EllipticCurve\Ecdsa::verify($message, $signature, $publicKey);
 
 ```
 
-Вы можете проверить на своем терминале:
+You can also verify it on terminal:
 
 ```
 openssl dgst -sha256 -verify publicKey.pem -signature signatureDer.txt message.txt
@@ -132,7 +134,7 @@ openssl dgst -sha256 -verify publicKey.pem -signature signatureDer.txt message.t
 openssl base64 -in signatureDer.txt -out signatureBase64.txt
 ```
 
-Вы можете также проверить при помощи этой библиотеки:
+You can also verify it with this library:
 
 ```php
 $signatureDer = EllipticCurve\Utils\File::read("signatureDer.txt");
@@ -142,7 +144,7 @@ $signature = EllipticCurve\Signature::fromDer($signatureDer);
 echo "\n" . $signature->toBase64();
 ```
 
-### Запуск UNIT тестов
+### Run all unit tests
 
 ```sh
 php tests/test.php
