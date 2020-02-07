@@ -32,9 +32,10 @@
 
 ```php
 use iAvatar777\services\EllipticCurve\Ecdsa;
+use iAvatar777\services\EllipticCurve\PrivateKey;
 
 # Generate privateKey from PEM string
-$privateKey = EllipticCurve\PrivateKey::fromPem("
+$privateKey = PrivateKey::fromPem("
     -----BEGIN EC PARAMETERS-----
     BgUrgQQACg==
     -----END EC PARAMETERS-----
@@ -72,7 +73,6 @@ echo "\n" . $signature->toBase64();
 $publicKey = $privateKey->publicKey();
 
 echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
-
 ```
 
 Simple use:
@@ -92,7 +92,6 @@ $signature = Ecdsa::sign($message, $privateKey);
 
 # Verify if signature is valid
 echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
-
 ```
 
 ### OpenSSL
@@ -126,7 +125,6 @@ $publicKey = PublicKey::fromPem($publicKeyPem);
 $signature = Signature::fromDer($signatureDer);
 
 echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
-
 ```
 
 Вы можете проверить на своем терминале:
