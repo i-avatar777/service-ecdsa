@@ -31,6 +31,7 @@
 Как подписать json сообщение:
 
 ```php
+use iAvatar777\services\EllipticCurve\Ecdsa;
 
 # Generate privateKey from PEM string
 $privateKey = EllipticCurve\PrivateKey::fromPem("
@@ -62,7 +63,7 @@ $message = array(
 
 $message = json_encode($message, JSON_PRETTY_PRINT);
 
-$signature = EllipticCurve\Ecdsa::sign($message, $privateKey);
+$signature = Ecdsa::sign($message, $privateKey);
 
 # Generate Signature in base64.
 echo "\n" . $signature->toBase64();
@@ -70,25 +71,27 @@ echo "\n" . $signature->toBase64();
 # To double check if message matches the signature
 $publicKey = $privateKey->publicKey();
 
-echo "\n" . EllipticCurve\Ecdsa::verify($message, $signature, $publicKey);
+echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
 
 ```
 
 Simple use:
 
 ```php
-
 # Generate new Keys
-$privateKey = new EllipticCurve\PrivateKey;
+use iAvatar777\services\EllipticCurve\PrivateKey;
+use iAvatar777\services\EllipticCurve\Ecdsa;
+
+$privateKey = new PrivateKey;
 $publicKey = $privateKey->publicKey();
 
 $message = "My test message";
 
 # Generate Signature
-$signature = EllipticCurve\Ecdsa::sign($message, $privateKey);
+$signature = Ecdsa::sign($message, $privateKey);
 
 # Verify if signature is valid
-echo "\n" . EllipticCurve\Ecdsa::verify($message, $signature, $publicKey);
+echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
 
 ```
 
@@ -110,15 +113,19 @@ openssl dgst -sha256 -sign privateKey.pem -out signatureDer.txt message.txt
 А теперь подпишем:
 
 ```php
+use iAvatar777\services\EllipticCurve\Utils\File;
+use iAvatar777\services\EllipticCurve\PublicKey;
+use iAvatar777\services\EllipticCurve\Signature;
+use iAvatar777\services\EllipticCurve\Ecdsa;
 
-$publicKeyPem = EllipticCurve\Utils\File::read("publicKey.pem");
-$signatureDer = EllipticCurve\Utils\File::read("signatureDer.txt");
-$message = EllipticCurve\Utils\File::read("message.txt");
+$publicKeyPem = Utils\File::read("publicKey.pem");
+$signatureDer = Utils\File::read("signatureDer.txt");
+$message = Utils\File::read("message.txt");
 
-$publicKey = EllipticCurve\PublicKey::fromPem($publicKeyPem);
-$signature = EllipticCurve\Signature::fromDer($signatureDer);
+$publicKey = PublicKey::fromPem($publicKeyPem);
+$signature = Signature::fromDer($signatureDer);
 
-echo "\n" . EllipticCurve\Ecdsa::verify($message, $signature, $publicKey);
+echo "\n" . Ecdsa::verify($message, $signature, $publicKey);
 
 ```
 
@@ -135,9 +142,12 @@ openssl base64 -in signatureDer.txt -out signatureBase64.txt
 Вы можете также проверить при помощи этой библиотеки:
 
 ```php
-$signatureDer = EllipticCurve\Utils\File::read("signatureDer.txt");
+use iAvatar777\services\EllipticCurve\Utils\File;
+use iAvatar777\services\EllipticCurve\Signature;
 
-$signature = EllipticCurve\Signature::fromDer($signatureDer);
+$signatureDer = Utils\File::read("signatureDer.txt");
+
+$signature = Signature::fromDer($signatureDer);
 
 echo "\n" . $signature->toBase64();
 ```
