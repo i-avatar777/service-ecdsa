@@ -1,6 +1,6 @@
 {
     "name": "i-avatar777/service-ecdsa",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "type": "library",
     "description": "Простая и быстрая реализация ECDSA на PHP используя библиотеку функций openssl",
     "homepage": "https://github.com/i-avatar777/service-ecdsa",

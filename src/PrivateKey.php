@@ -3,8 +3,12 @@
 namespace iAvatar777\services\EllipticCurve;
 
 
-class PrivateKey {
-    function __construct($curve="secp256k1", $openSslPrivateKey=null) {
+class PrivateKey
+{
+    public $openSslPrivateKey;
+
+    function __construct($curve = "secp256k1", $openSslPrivateKey = null)
+    {
         if (is_null($openSslPrivateKey)) {
             $config = array(
                 "digest_alg"       => "sha256",
@@ -23,17 +27,20 @@ class PrivateKey {
         $this->openSslPrivateKey = $openSslPrivateKey;
     }
 
-    function publicKey() {
+    function publicKey()
+    {
         $openSslPublicKey = openssl_pkey_get_details($this->openSslPrivateKey)["key"];
 
         return new PublicKey($openSslPublicKey);
     }
 
-    function toString () {
+    function toString ()
+    {
         return base64_encode($this->toDer());
     }
 
-    function toDer () {
+    function toDer ()
+    {
         $pem = $this->toPem();
     
         $lines = array();
@@ -48,12 +55,15 @@ class PrivateKey {
         return base64_decode($pem_data);
     }
 
-    function toPem () {
+    function toPem ()
+    {
         openssl_pkey_export($this->openSslPrivateKey, $out, null);
+
         return $out;
     }
 
-    static function fromPem ($str) {
+    static function fromPem ($str)
+    {
         $rebuilt = array();
         foreach(explode("\n", $str) as $line) { 
             $line = trim($line);
@@ -65,16 +75,17 @@ class PrivateKey {
         return new PrivateKey(null, openssl_get_privatekey($rebuilt));
     }
 
-    static function fromDer ($str) {
+    static function fromDer ($str)
+    {
         $pem_data = base64_encode($str);
         $pem = "-----BEGIN EC PRIVATE KEY-----\n" . substr($pem_data, 0, 64) . "\n" . substr($pem_data, 64, 64) . "\n" . substr($pem_data, 128, 64) . "\n-----END EC PRIVATE KEY-----\n";
         return new PrivateKey(null, openssl_get_privatekey($pem));
     }
 
-    static function fromString ($str) {
+    static function fromString ($str)
+    {
         return PrivateKey::fromDer(base64_decode($str));
     }
 
 }
 
-?>

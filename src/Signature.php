@@ -3,25 +3,32 @@
 namespace iAvatar777\services\EllipticCurve;
 
 
-class Signature {
+class Signature
+{
+    public $der;
 
-    function __construct ($der) {
+    function __construct($der)
+    {
         $this->der = $der;
     }
 
-    function toDer () {
+    function toDer()
+    {
         return $this->der;
     }
 
-    function toBase64 () {
+    function toBase64()
+    {
         return base64_encode($this->der);
     }
 
-    static function fromDer ($str) {
+    static function fromDer($str)
+    {
         return new Signature($str);
     }
 
-    static function fromBase64 ($str) {
+    static function fromBase64($str)
+    {
         return new Signature(base64_decode($str));
     }
 

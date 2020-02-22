@@ -3,18 +3,26 @@
 namespace iAvatar777\services\EllipticCurve;
 
 
-class PublicKey {
+class PublicKey
+{
     
-    function __construct ($pem) {
+    public $openSslPublicKey;
+
+    public $pem;
+
+    function __construct ($pem)
+    {
         $this->pem = $pem;
         $this->openSslPublicKey = openssl_get_publickey($pem);
     }
 
-    function toString () {
+    function toString ()
+    {
         return base64_encode($this->toDer());
     }
 
-    function toDer () {
+    function toDer ()
+    {
         $pem = $this->toPem();
     
         $lines = array();
@@ -29,11 +37,13 @@ class PublicKey {
         return base64_decode($pem_data);
     }
 
-    function toPem () {
+    function toPem ()
+    {
         return $this->pem;
     }
 
-    static function fromPem ($str) {
+    static function fromPem ($str)
+    {
         $rebuilt = array();
         foreach(explode("\n", $str) as $line) { 
             $line = trim($line);
@@ -42,19 +52,22 @@ class PublicKey {
             }
         };
         $rebuilt = join("\n", $rebuilt) . "\n";
+
         return new PublicKey($rebuilt);
     }
 
-    static function fromDer ($str) {
+    static function fromDer ($str)
+    {
         $pem_data = base64_encode($str);
         $pem = "-----BEGIN PUBLIC KEY-----\n" . substr($pem_data, 0, 64) . "\n" . substr($pem_data, 64) . "\n-----END PUBLIC KEY-----\n";
+
         return new PublicKey($pem);
     }
 
-    static function fromString ($str) {
+    static function fromString ($str)
+    {
         return PublicKey::fromDer(base64_decode($str));
     }
 
 }
 
-?>

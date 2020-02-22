@@ -117,9 +117,9 @@ use iAvatar777\services\EllipticCurve\PublicKey;
 use iAvatar777\services\EllipticCurve\Signature;
 use iAvatar777\services\EllipticCurve\Ecdsa;
 
-$publicKeyPem = Utils\File::read("publicKey.pem");
-$signatureDer = Utils\File::read("signatureDer.txt");
-$message = Utils\File::read("message.txt");
+$publicKeyPem = File::read("publicKey.pem");
+$signatureDer = File::read("signatureDer.txt");
+$message = File::read("message.txt");
 
 $publicKey = PublicKey::fromPem($publicKeyPem);
 $signature = Signature::fromDer($signatureDer);
@@ -143,7 +143,7 @@ openssl base64 -in signatureDer.txt -out signatureBase64.txt
 use iAvatar777\services\EllipticCurve\Utils\File;
 use iAvatar777\services\EllipticCurve\Signature;
 
-$signatureDer = Utils\File::read("signatureDer.txt");
+$signatureDer = File::read("signatureDer.txt");
 
 $signature = Signature::fromDer($signatureDer);
 
